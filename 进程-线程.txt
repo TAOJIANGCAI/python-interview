@@ -1,0 +1,31 @@
+进程：进程时系统进行资源分配和调度的一个独立单位
+线程：是进程的一个实体，是cpu调度和分派的基本单位，比进程更小的能独立运行的基本单位。
+	   线程自己基本不拥有系统资源，只拥有一点运行中必不可少的资源，但它可与同属一个
+	   进程中的其他线程共享进程所拥有的全部资源。
+	   
+区别：一个程序至少有一个进程，一个进程至少有一个线程
+      线程的划分的尺度小于进程。
+	  进程在执行的过程中拥有对立的内存单元，而多个线程共享内存，从而极大的提高程序的运行xiaol
+	  线程不能独立运行，必须依存在进程中
+优缺点：线程执行开销小，但不利于资源的管理和保护。而进程相反。	  
+	   
+
+多进程创建方式：
+# 多进程的三种方式：
+# 1.from multiprocessing import Process
+# 2.创建一个类，继承Process类，重写run方法
+# 3.使用from multiprocessing import Pool进程池创建进程	
+
+进程间通信： 多进程拥有对立的内存单元，因此不能共享全局变量。因此进程间通信用queue
+# 1,from multiprocessing import Process创建的进程，使用from multiprocessing import Queue，q = Queue()
+# 2,通过进程池创建的进程，使用from multiprocessing import Manager,q = Manager.Queue()
+
+
+多线程创建方式：
+ 1,t1 = threading.Thread(target=sing),t1.start()
+ 2,使用类，继承threading.Thread,重写run方法
+ 
+ 线程间通信：
+ 1、线程间共享内存，可以使用全局变量共享，但是应使用互斥锁 from threading import Lock
+ 2、生产者消费者模式，from queue import Queue
+    Queue中已经实现了锁，直接当作全局变量使用就行
