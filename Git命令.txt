@@ -1,0 +1,112 @@
+﻿第一步配置：
+git config --global user.name "TAOJIANGCAI"
+git config --global user.email "826907729@qq.com"
+
+将某个目录变成Git可管理的仓库：git init
+添加到本地仓库：1、git add readme.txt  
+                2、git commit -m "备注信息"
+
+查看当前仓库的状态：git status
+查看修改的内容： git diff readme.txt
+
+版本回退：
+     查看提交的日志：git log
+	               git log --pretty=oneline
+	 HEAD表示当前版本，HEAD^ 表示上一版本， HEAD^^表示上上版本
+	 退回上一版本：git reset --hard HEAD
+	 退回指定版本：git reset --hard commit_id(指定版本的id，可通过git log查看)
+	 查看命令历史：git reflog
+
+版本修改：
+     查看工作区和当前版本的区别：git diff HEAD --readme.txt
+     只有通过git add 命令添加到暂存区的文件，然后通过git commit 命令才能添加到版本库中，否则不能添加到
+     版本库中。	 
+	
+撤销修改：
+     1、直接丢弃工作区的修改：git checkout -- readme.txt（没有使用git add 命令）
+     2、当修改已经添加到暂存区后，想丢弃修改：分两步，第一步，git reset HEAD readme.txt 退回到工作区
+	 第二步，git checkout -- readme.txt 从工作区中丢弃修改 （使用了git add命令）
+	 3、添加到版本库中：直接退回上一版本 git reset --hard HEAD（使用了git add 也使用了git commit命令）
+	 
+删除文件：
+     某个文件已经提交到版本库中，然后自己在工作区中删除了这个文件，Git检测到工作区和版本库不一致，现在有两种情况：
+	 1、直接从版本库中也删除，这个文件：第一步，git rm test.txt 第二步：git commit -m "备注信息"
+	 2、删错了，想从版本库中恢复：git checkout -- test.txt
+	 
+远程仓库：
+    将本地仓库和远程仓库关联：git remote add origin git@githup.com:TAOJIANGCAI/learngit.git
+    将本地仓库信息推送到远程仓库：git push -u origin master,第一次推送加上-u ，以后推送直接git push origin master
+
+从远程仓库克隆：
+     将某个远程仓库克隆到本地：git clone git@github.com:TAOJIANGCAI/CloneRapTest.git
+	 
+分支：
+    创建与合并：
+	       创建并切换到dev分支：git checkout -b dev
+		   查看当前分支： git branch
+		   切换到master分支：git checkout master
+		   将dev分支成果合并到master中：git merge dev
+		   然后删除dev分支：git branch -d dev
+		   
+		   当Git无法自动合并分支时，要先解决冲突，然后提交。然后在删除分支。
+           查看分支合并图：git log --graph --pretty=oneline --abbrev-commit 		   
+       
+	   
+	       git merge --no-ff -m "备注信息" dev
+	       合并分支时,加上 --no-ff 参数就可以用普通模式合并,合并后的历史有分支,能看出来曾经做过合并,
+		   而fast forward 合并就看不出来曾经做过合并
+	
+	Bug 分支：
+          保存当前工作现场：git stash		  
+	      查看工作现场在哪里： git stash list
+	      
+          恢复工作现场：1、git stash apply 但是恢复后,stash内容并不删除,你需要用git	stash drop来删除
+   
+   2、另一种方式是用git stash pop，恢复的同时把stash内容也删了
+	 
+多人协作：
+    
+	查看远程库信息：git remote / git remote -v
+	
+	推送分支： git push origin dev
+	
+	创建远程origin的dev分支到本地: git checkout -b dev origin/dev,然后就可push到orgin的dev上
+	
+	当push失败时，要先git pull把最新的提交从远程库中抓下来，解决冲突后，首先在本地提交，然后在push到远程库中
+	
+	1、首先，试图用git push origin dev 推送修改
+	2、如果推送失败，用git pull试图合并
+	3、合并后有冲突，先解决冲突然后在本地提交
+	4、本地提交后，再用git push origin dev推送
+	
+	如果git pull提示not track information，则说明本地分支和远程分支的链接没有建立，用
+	命令git branch --set-upstream branch-name origin/branch-name
+
+标签：
+    git	tag	&lt;name&gt;	用于新建一个标签，默认为HEAD，也可以指 定一个commit	id；
+	git	tag	-a	&lt;tagname&gt;	-m	"blablabla..."	可以指定标签信息；
+	git	tag	-s	&lt;tagname&gt;	-m	"blablabla..."	可以用PGP签名标 签；
+    git	tag	可以查看所有标签
+	
+    
+    git	push	origin	&lt;tagname&gt;	可以推送一个本地标签；
+    git	push	origin	--tags	可以推送全部未推送过的本地标签；
+    git	tag	-d	&lt;tagname&gt;	可以删除一个本地标签；
+    git	push	origin	:refs/tags/&lt;tagname&gt;	可以删除一个远程 标签。
+ 
+    	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	 
+	 
+	 
+    	
+	 
