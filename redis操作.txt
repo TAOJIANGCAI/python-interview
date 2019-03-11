@@ -1,0 +1,76 @@
+mysql :You must reset your password using ALTER USER statement before
+处理：alter user 'root'@'localhost' identified by 'youpassword';
+安装配置: 
+1、wget http://download.redis.io/releases/redis-3.2.8.tar.gz
+2、解压 tar -zxvf redis-3.2.8.tar.gz
+3、复制，放到usr/local目录下
+     sudo mv ./redis-3.2.8 /usr/local/redis/
+4、进入到/usr/local/redis目录后，然后生成
+     sudo make
+5、测试
+     sudo make test
+6 、默认安装到redis的命令安装到/usr/local/bin/?录
+      sudo make install
+7、将redis.conf文件复制一份到/etc/redis/下
+  
+8、数据?件存储路径
+     dir  /var/lib/redis
+    ?志?件
+     logfile  /var/log/redis/redis-server.log
+9、sudo redis-server /etc/redis/redis.conf     开启redis服务
+     ps aux | grep rdis
+     sudo kill -9 pid
+卸载：
+删除 usr/local/bin/ 中所有 redis 相关的文件
+sudo rm /usr/local/bin/redis-*
+
+删除配置目录和内容
+sudo rm -r /etc/redis/
+
+删除日志
+sudo rm /var/log/redis_*
+
+删除数据目录和内容
+sudo rm -r /var/lib/redis/
+
+删除初始化脚本
+sudo rm /etc/init.d/redis_*
+
+删除现有的Redis PID文件(仅当存在时)
+sudo rm /var/run/redis_*
+
+key value 
+value值可以是 string hash list set zset
+
+键的操作：keys * 查看所有的键 
+                type key 查看key的值的类型
+                expire key seconds 设置键的过期时间
+                ttl key         查看键还有多长时间过期
+                exists  key... 查看键是否存在
+                del key ...      删除键
+值的操作:
+1、string
+set key value   setex key seconds value(过期时间)  mset key value ...   append key value(追加)
+get key            mget key ....
+del key ...
+
+2、hash
+hset key field value   hmset key field value [filed value ....] 
+hget key field           hmget key field [field ...]      hkeys key (获取键的所有属性)  hvals key (获取所有属性的值)
+hdel key field [field...]
+
+3、list
+lpush key value [value...]    rpush  key value [value ...]  linsert key befor|after prvoit value
+lset key index value(设置指定索引位置的值)
+lrange key start stop
+lrem key count value(count >0 从头到尾删除count个元素；count<0 从尾到头删除count个元素；count=0 删除所有)
+
+4、set
+sadd key member [member ...] 
+smembers key 
+srem key member [member ...]
+
+5、zset
+zadd key score1 member1 score2 member2
+zrange key start stop   zrangebyscore key min max   zscore key member(返回member的score值)
+zrem key member1 member2    zremrangebyscore key min max(根据score值删除元素)
